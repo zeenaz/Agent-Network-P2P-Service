@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anet-sdk"
+version = "1.1.0"
+description = "AgentNetwork Python SDK — register, discover, and call P2P services in three lines."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+keywords = ["agent", "p2p", "agentnetwork", "sdk", "mesh"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Internet",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+  "httpx>=0.25",
+]
+
+[project.urls]
+Homepage = "https://agentnetwork.org.cn"
+Repository = "https://github.com/zeenaz/Agent-Network-P2P-Service"
+Documentation = "https://docs.agentnetwork.org.cn"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["anet*"]
+
+[tool.pytest.ini_options]
+testpaths = ["../../tests"]
