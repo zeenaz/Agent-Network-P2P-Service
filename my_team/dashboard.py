@@ -16,7 +16,7 @@ BASE_URL = os.environ.get("ANET_BASE_URL", "http://127.0.0.1:13921")
 # 调用走 daemon-2 避免 "dial to self"
 CALL_BASE_URL = os.environ.get("CALL_BASE_URL", "http://127.0.0.1:13922")
 CALL_TOKEN = os.environ.get("CALL_TOKEN",
-    "e1e45b1b9a9508bd7e84c4cf98beba6a9619e48630d679be2e3c579abaced47d")
+    "")
 DASH_PORT = int(os.environ.get("DASH_PORT", "7500"))
 
 app = FastAPI(title="p2p-dashboard")
