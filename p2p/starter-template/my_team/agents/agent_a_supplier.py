@@ -153,11 +153,34 @@ async def quote(req: Request):
     })
 
 
+@app.post("/v1/chat")
+async def supplier_chat(req: Request):
+    """聊天接口 — 供应商回答产品相关问题"""
+    body = await req.json()
+    msg = (body or {}).get("message", "") or (body or {}).get("text", "") or (body or {}).get("prompt", "")
+    know = {
+        "产品": f"我们有 {len(PRODUCTS)} 款产品，包括: {', '.join(PRODUCTS.keys())}。提供详细规格和报价。",
+        "价格": f"产品价格从 ${min(p['price_usd'] for p in PRODUCTS.values())} 到 ${max(p['price_usd'] for p in PRODUCTS.values())} 不等",
+        "交货": "一般交货期 15-30 天，具体看产品和数量。",
+        "证书": "我们有 CE、RoHS、UN38.3、EN71 等认证，具体看产品。",
+        "默认": f"我是深圳工厂的供应商 Agent，我可以查询产品规格、报价和认证信息。试试问我「产品有哪些」「价格」「电动滑板车」",
+    }
+    for kw, reply in know.items():
+        if kw in msg:
+            return JSONResponse({"reply": reply, "agent": NAME})
+    # 试试查产品
+    for pname in PRODUCTS:
+        if pname in msg:
+            p = PRODUCTS[pname]
+            return JSONResponse({"reply": f"{pname}: ${p['price_usd']}/台, MOQ={p['moq']}, HS编码={p['hs_code']}, 产地{p['origin']}", "agent": NAME})
+    return JSONResponse({"reply": know["默认"], "agent": NAME})
+
+
 def main():
     threading.Thread(
         target=lambda: register_agent(
             NAME, PORT,
-            paths=["/v1/product/list", "/v1/product/detail", "/v1/quote", "/health", "/meta"],
+            paths=["/v1/product/list", "/v1/product/detail", "/v1/quote", "/v1/chat", "/health", "/meta"],
             tags=["product_info", "supplier", "trade"],
             description="供应商 Agent：产品数据库 + 报价 (真实出口数据)",
             per_call=PER_CALL,

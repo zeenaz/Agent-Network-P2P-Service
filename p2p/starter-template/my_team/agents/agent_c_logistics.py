@@ -204,11 +204,30 @@ async def shipping_quote(req: Request):
     })
 
 
+@app.post("/v1/chat")
+async def logistics_chat(req: Request):
+    """聊天接口 — 货代回答物流相关问题"""
+    body = await req.json()
+    msg = (body or {}).get("message", "") or (body or {}).get("text", "") or (body or {}).get("prompt", "")
+    routes_list = "\n".join([f"- {k}: {v['transit_days']}天, 拼箱${v['lcl_usd_per_cbm']}/CBM" for k, v in ROUTES.items()])
+    know = {
+        "路线": f"我们有 {len(ROUTES)} 条航线:\n{routes_list}",
+        "运费": f"拼箱 ${min(r['lcl_usd_per_cbm'] for r in ROUTES.values())}-${max(r['lcl_usd_per_cbm'] for r in ROUTES.values())}/CBM",
+        "时间": f"到欧洲一般 {min(r['transit_days'] for r in ROUTES.values())}-{max(r['transit_days'] for r in ROUTES.values())} 天",
+        "附加": "燃油附加费15%、货币贬值附加费8%、锂电池危险品附加费$50-150",
+        "默认": "我是国际货代 Agent，可以查询中国到欧洲的海运运费和航线。试试问我「运费」「深圳到汉堡多少钱」「运输时间」",
+    }
+    for kw, reply in know.items():
+        if kw in msg:
+            return JSONResponse({"reply": reply, "agent": NAME})
+    return JSONResponse({"reply": know["默认"], "agent": NAME})
+
+
 def main():
     threading.Thread(
         target=lambda: register_agent(
             NAME, PORT,
-            paths=["/v1/route/list", "/v1/shipping/quote", "/health", "/meta"],
+            paths=["/v1/route/list", "/v1/shipping/quote", "/v1/chat", "/health", "/meta"],
             tags=["shipping_quote", "logistics", "trade"],
             description="货代 Agent：海运运价数据库 (中国→欧洲各港口 2025-2026)",
             per_call=PER_CALL,

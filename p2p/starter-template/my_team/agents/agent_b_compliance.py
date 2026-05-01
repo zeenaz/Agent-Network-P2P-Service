@@ -211,11 +211,34 @@ async def compliance_check(req: Request):
     })
 
 
+@app.post("/v1/chat")
+async def compliance_chat(req: Request):
+    """聊天接口 — 合规顾问回答问题"""
+    body = await req.json()
+    msg = (body or {}).get("message", "") or (body or {}).get("text", "") or (body or {}).get("prompt", "")
+    regs_summary = "\n".join([f"- {v['name']}: {v['description'][:40]}…" for k, v in list(REGULATIONS.items())[:8]])
+    know = {
+        "法规": f"我收录了 {len(REGULATIONS)} 项欧盟法规，包括:\n{regs_summary}",
+        "CE": REGULATIONS["CE"]["description"],
+        "RoHS": REGULATIONS["RoHS"]["description"],
+        "REACH": REGULATIONS["REACH"]["description"],
+        "PFAS": REGULATIONS["PFAS"]["description"],
+        "CBAM": REGULATIONS["CBAM"]["description"],
+        "电池": REGULATIONS["UN38.3"]["description"],
+        "玩具": REGULATIONS["TSR"]["description"],
+        "默认": "我是欧盟合规顾问 Agent，可以查询出口欧盟的法规要求。试试问我「CE认证」「RoHS」「电池出口」",
+    }
+    for kw, reply in know.items():
+        if kw in msg:
+            return JSONResponse({"reply": reply, "agent": NAME})
+    return JSONResponse({"reply": know["默认"], "agent": NAME})
+
+
 def main():
     threading.Thread(
         target=lambda: register_agent(
             NAME, PORT,
-            paths=["/v1/regulation/list", "/v1/compliance/check", "/health", "/meta"],
+            paths=["/v1/regulation/list", "/v1/compliance/check", "/v1/chat", "/health", "/meta"],
             tags=["compliance_check", "regulatory", "trade"],
             description="合规顾问 Agent：欧盟法规数据库 (RoHS/REACH/CBAM/PFAS/TSR/EUDR 等)",
             per_call=PER_CALL,
