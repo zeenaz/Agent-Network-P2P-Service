@@ -102,7 +102,7 @@ async def product_detail(req: Request):
     p = PRODUCTS.get(name)
     if not p:
         # 模糊匹配
-        matches = [n for n in PRODUCTS if name in n]
+        matches = [n for n in PRODUCTS if name and name in n]
         if matches:
             p = PRODUCTS[matches[0]]
             name = matches[0]
