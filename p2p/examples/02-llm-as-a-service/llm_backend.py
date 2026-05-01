@@ -113,8 +113,8 @@ async def generate(
         else:
             text = _fake_complete(prompt, max_tokens)
         return JSONResponse({"text": text, "caller_did": x_agent_did})
-    except Exception as e:  # noqa: BLE001
-        return JSONResponse({"error": str(e)}, status_code=502)
+    except Exception:  # noqa: BLE001
+        return JSONResponse({"error": "upstream backend error"}, status_code=502)
 
 
 @app.post("/stream")

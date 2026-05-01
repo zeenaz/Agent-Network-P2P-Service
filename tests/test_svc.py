@@ -56,9 +56,8 @@ def test_resolve_token_explicit():
 
 
 def test_resolve_token_env(monkeypatch):
+    # Ensure ANET_TOKEN is set; explicit argument should still take precedence.
     monkeypatch.setenv("ANET_TOKEN", "envtok")
-    monkeypatch.delenv("ANET_TOKEN", raising=False)
-    # Explicit takes precedence
     assert _resolve_token("explicit") == "explicit"
 
 
