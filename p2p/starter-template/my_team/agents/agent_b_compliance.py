@@ -1,6 +1,7 @@
 """Agent B — 合规顾问 (Compliance). 持有法规数据库 context + compliance_check skill."""
 
 import os
+import re
 import threading
 from typing import Optional
 import uvicorn
@@ -196,7 +197,6 @@ async def compliance_check(req: Request):
     total_cost_est = 0
     for r in regs:
         if r["status"] == "❌ 需要办理":
-            import re
             nums = re.findall(r'[\d,]+', r["cost_estimate"])
             if nums:
                 total_cost_est += int(nums[0].replace(",", ""))

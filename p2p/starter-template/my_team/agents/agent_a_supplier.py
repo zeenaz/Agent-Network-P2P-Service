@@ -126,7 +126,10 @@ async def quote(req: Request):
     """估算产品成本"""
     body = await req.json()
     name = (body or {}).get("product", "")
-    qty = int((body or {}).get("qty", 100))
+    try:
+        qty = int((body or {}).get("qty", 100))
+    except ValueError:
+        return JSONResponse({"error": "数量格式错误", "status": 400})
     p = PRODUCTS.get(name)
     if not p:
         matches = [n for n in PRODUCTS if name in n]
