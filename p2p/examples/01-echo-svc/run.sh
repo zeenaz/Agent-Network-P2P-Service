@@ -22,6 +22,9 @@ cleanup() {
   for pid in "${PIDS_TO_KILL[@]:-}"; do
     kill "$pid" 2>/dev/null || true
   done
+  # Clean up any stray process still binding the port (SIGTERM, then SIGKILL).
+  lsof -ti tcp:"$ECHO_PORT" 2>/dev/null | xargs -r kill    2>/dev/null || true
+  sleep 1
   lsof -ti tcp:"$ECHO_PORT" 2>/dev/null | xargs -r kill -9 2>/dev/null || true
 }
 trap cleanup EXIT
