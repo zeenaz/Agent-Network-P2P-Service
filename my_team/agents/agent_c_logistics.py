@@ -98,8 +98,7 @@ def _pick_route(origin: str, dest: str) -> dict | None:
     if origin and dest:
         key = f"{origin}→{dest}"
     for k, v in ROUTES.items():
-        return v
-    return None
+    return next(iter(ROUTES.values()), None)
 
 
 @app.get("/health")
