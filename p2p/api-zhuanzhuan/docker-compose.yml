@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  api-zhuanzhuan:
+    build: .
+    container_name: api-zhuanzhuan
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; urllib.request.urlopen('http://localhost:8080/health',timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
