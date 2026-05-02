@@ -6,6 +6,7 @@ __pycache__/
 # Local workspace state
 .DS_Store
 .omx/
+.agents/
 
 # Private AgentReserve strategy documents live in zeenaz/AgentReserve-BP-Docs.
 AgentReserve/AgentReserve_Bank/dev-plan.md
