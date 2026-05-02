@@ -1,0 +1,26 @@
+# secrets
+.env
+*.local
+
+# runtime data (contains real API keys in plaintext)
+data/*.json
+!data/.gitkeep
+
+# logs / pid
+*.log
+*.pid
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# editors
+.vscode/
+.idea/
+*.swp
