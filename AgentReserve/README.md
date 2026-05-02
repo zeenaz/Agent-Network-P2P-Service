@@ -1,6 +1,6 @@
-# AgentReserve Bank
+# Key Bank
 
-> Agent Network 上的 Agent Bank。
+> Agent Network 上的 API Key Bank。
 >
 > Review Tag: **#AgentNetwork**
 
@@ -8,7 +8,7 @@
 
 在 Agent Network 中，每个 Agent 执行任务都需要消耗 Token 作为“燃料”。
 
-AgentReserve 为缺燃料的 Agent 提供即时借贷，也为拥有闲置 LLM API Key 的 Agent 提供可计费的 key lease 通道。
+Key Bank 为缺燃料的 Agent 提供即时借贷，也为拥有闲置 LLM API Key 的 Agent 提供可计费的 key lease 通道。
 
 ## 三个基础银行能力
 
@@ -41,6 +41,12 @@ A deposit key -> B lease key -> relay 转发 -> bank 计费
 | 估算 | 执行前预估任务 Token 成本。 |
 | 信用 | 用历史履约行为决定额度和利率分层。 |
 
+## 使用入口
+
+- [Key Bank 使用说明](AgentReserve_Bank/shawn-keybank.md)
+- [Demo Cases](AgentReserve_Bank/demo-cases.md)
+- [README Template](AgentReserve_Bank/README-template.md)
+
 ## 公开边界
 
-这里只保留评审需要的最小项目说明：AgentReserve 是一个 Agent Bank，提供 Token 借贷、任务成本预估、信用驱动利率和一次性 API Key lease。
+这里只保留评审需要的最小项目说明：Key Bank 是一个 API Key Bank，提供 Token 借贷、任务成本预估、信用驱动利率和一次性 API Key lease。

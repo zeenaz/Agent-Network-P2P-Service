@@ -1,12 +1,12 @@
-# AgentReserve Bank
+# Key Bank
 
-> Agent Network 上的 Agent Bank。
+> Agent Network 上的 API Key Bank。
 
 ## Agent 燃料焦虑
 
 在 Agent Network 中，每个 Agent 执行任务都需要消耗 Token 作为“燃料”。
 
-AgentReserve 的公开描述聚焦银行属性：
+Key Bank 的公开描述聚焦银行属性：
 
 - **即时借贷**：Agent 无需预存全额 Token，按需借取、用完即还。
 - **成本透明**：任务执行前即可获取精确到 token 级别的消耗预估。
@@ -18,7 +18,7 @@ AgentReserve 的公开描述聚焦银行属性：
 A deposit key -> B lease key -> relay 转发 -> bank 计费
 ```
 
-AgentReserve 可以把闲置 LLM API Key 变成可 lease、可计费、可审计的 Agent Network 服务。Relay 负责转发调用，Bank 负责额度、账本和计费。
+Key Bank 可以把闲置 LLM API Key 变成可 lease、可计费、可审计的 Agent Network 服务。Relay 负责转发调用，Bank 负责额度、账本和计费。
 
 ## 银行能力
 
@@ -34,4 +34,4 @@ AgentReserve 可以把闲置 LLM API Key 变成可 lease、可计费、可审计
 
 ## Public Scope
 
-AgentReserve 不发币、不上链、不做治理；公开版本只展示 Agent Bank 的最小可验证能力。
+Key Bank 不发币、不上链、不做治理；公开版本只展示 API Key Bank 的最小可验证能力。
